@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tip.js 演示 - 轻量级交互组件库</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .demo-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+        }
+        .demo-section h3 {
+            margin-top: 0;
+            color: #374151;
+        }
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        button {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        .btn-success { background: #10b981; color: white; }
+        .btn-success:hover { background: #059669; }
+        .btn-error { background: #ef4444; color: white; }
+        .btn-error:hover { background: #dc2626; }
+        .btn-info { background: #3b82f6; color: white; }
+        .btn-info:hover { background: #2563eb; }
+        .btn-warning { background: #f59e0b; color: white; }
+        .btn-warning:hover { background: #d97706; }
+        .btn-secondary { background: #6b7280; color: white; }
+        .btn-secondary:hover { background: #4b5563; }
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .feature-list li:before {
+            content: "✓";
+            color: #10b981;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        /* 代码显示区域样式 */
+        .code-display {
+            background: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            color: #f9fafb;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            display: none;
+        }
+        
+        .code-display.show {
+            display: block;
+            animation: fadeInUp 0.3s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #374151;
+        }
+        
+        .code-title {
+            color: #60a5fa;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .copy-btn {
+            background: #374151;
+            color: #f9fafb;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .copy-btn:hover {
+            background: #4b5563;
+        }
+        
+        .copy-btn.copied {
+            background: #10b981;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tip.js 轻量级交互组件库</h1>
+        
+        <div class="demo-section">
+            <h3>🚀 特性介绍</h3>
+            <ul class="feature-list">
+                <li>完全独立，无需HTML设置，引入JS即可使用</li>
+                <li>自动创建必要的DOM容器和CSS样式</li>
+                <li>支持Toast提示、确认对话框、输入对话框、加载遮罩</li>
+                <li>轻量级，无外部依赖，兼容所有现代浏览器</li>
+                <li>ES5语法，兼容旧版浏览器</li>
+                <li>丰富的配置选项和快捷方法</li>
+            </ul>
+        </div>
+
+        <div class="demo-section">
+            <h3>📦 安装使用</h3>
+            <div class="code-block">
+<!-- 只需要引入一个JS文件 -->
+&lt;script src="tip.js"&gt;&lt;/script&gt;
+
+&lt;script&gt;
+// 直接使用，无需任何HTML设置
+tip.success('操作成功！');
+tip.error('出现错误！');
+tip.info('这是一条信息');
+tip.warning('请注意！');
+&lt;/script&gt;
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h3>🍞 Toast 提示</h3>
+            <p>显示不同类型的提示消息，支持自定义显示时间</p>
+            <div class="button-group">
+                <button class="btn-success" onclick="showToastCode('success')">成功提示</button>
+                <button class="btn-error" onclick="showToastCode('error')">错误提示</button>
+                <button class="btn-info" onclick="showToastCode('info')">信息提示</button>
+                <button class="btn-warning" onclick="showToastCode('warning')">警告提示</button>
+                <button class="btn-secondary" onclick="showToastCode('time')">长时间提示</button>
+            </div>
+            <div id="toast-code" class="code-display">
+                <div class="code-header">
+                    <span class="code-title">Toast 提示代码</span>
+                    <button class="copy-btn" onclick="copyCode('toast-code')">复制代码</button>
+                </div>
+                <div class="code-content"></div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h3>❓ 确认对话框</h3>
+            <p>显示确认对话框，支持自定义标题和按钮文字</p>
+            <div class="button-group">
+                <button class="btn-info" onclick="showConfirmCode('basic')">基础确认</button>
+                <button class="btn-warning" onclick="showConfirmCode('custom')">自定义确认</button>
+            </div>
+            <div id="confirm-code" class="code-display">
+                <div class="code-header">
+                    <span class="code-title">确认对话框代码</span>
+                    <button class="copy-btn" onclick="copyCode('confirm-code')">复制代码</button>
+                </div>
+                <div class="code-content"></div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h3>📝 输入对话框</h3>
+            <p>显示输入对话框，支持默认值和占位符</p>
+            <div class="button-group">
+                <button class="btn-info" onclick="showPromptCode('basic')">基础输入</button>
+                <button class="btn-success" onclick="showPromptCode('custom')">自定义输入</button>
+            </div>
+            <div id="prompt-code" class="code-display">
+                <div class="code-header">
+                    <span class="code-title">输入对话框代码</span>
+                    <button class="copy-btn" onclick="copyCode('prompt-code')">复制代码</button>
+                </div>
+                <div class="code-content"></div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h3>⏳ 加载遮罩</h3>
+            <p>显示加载状态，支持自定义提示文字</p>
+            <div class="button-group">
+                <button class="btn-info" onclick="showLoadingCode('basic')">显示加载</button>
+                <button class="btn-success" onclick="showLoadingCode('custom')">自定义加载</button>
+            </div>
+            <div id="loading-code" class="code-display">
+                <div class="code-header">
+                    <span class="code-title">加载遮罩代码</span>
+                    <button class="copy-btn" onclick="copyCode('loading-code')">复制代码</button>
+                </div>
+                <div class="code-content"></div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h3>🔄 复杂流程演示</h3>
+            <p>演示多个组件组合使用的复杂交互流程</p>
+            <div class="button-group">
+                <button class="btn-warning" onclick="showComplexCode()">复杂流程</button>
+            </div>
+            <div id="complex-code" class="code-display">
+                <div class="code-header">
+                    <span class="code-title">复杂流程代码</span>
+                    <button class="copy-btn" onclick="copyCode('complex-code')">复制代码</button>
+                </div>
+                <div class="code-content"></div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h3>🧹 清理功能</h3>
+            <p>清理所有组件状态</p>
+            <div class="button-group">
+                <button class="btn-info" onclick="showClearCode('toasts')">清除Toast</button>
+                <button class="btn-warning" onclick="showClearCode('modals')">关闭模态框</button>
+                <button class="btn-info" onclick="showClearCode('loading')">隐藏加载</button>
+                <button class="btn-error" onclick="showClearCode('all')">清理全部</button>
+            </div>
+            <div id="clear-code" class="code-display">
+                <div class="code-header">
+                    <span class="code-title">清理功能代码</span>
+                    <button class="copy-btn" onclick="copyCode('clear-code')">复制代码</button>
+                </div>
+                <div class="code-content"></div>
+            </div>
+        </div>
+
+
+
+        <div class="demo-section">
+            <h3>📚 API 文档</h3>
+            <div class="code-block">
+// Toast 提示
+tip.toast(message, type, options)
+tip.success(message, options)
+tip.error(message, options)
+tip.info(message, options)
+tip.warning(message, options)
+
+// 确认对话框
+tip.confirm(message, callback, options)
+
+// 输入对话框
+tip.prompt(message, callback, options)
+
+// 加载遮罩
+tip.loading.show(message)
+tip.loading.hide()
+tip.showLoading(message)
+tip.closeLoading()
+
+// 清理方法
+tip.clearToasts()
+tip.closeAllModals()
+tip.closeAllLoading()
+tip.clearAll()
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入tip.js -->
+    <script src="tip.js"></script>
+    
+    <script>
+        
+
+
+
+        // 代码显示和复制功能
+        function showCode(codeId, content, title) {
+            // 隐藏所有代码显示区域
+            var allCodeDisplays = document.querySelectorAll('.code-display');
+            for (var i = 0; i < allCodeDisplays.length; i++) {
+                allCodeDisplays[i].classList.remove('show');
+            }
+            
+            // 显示当前代码区域
+            var codeDisplay = document.getElementById(codeId);
+            var codeContent = codeDisplay.querySelector('.code-content');
+            var codeTitle = codeDisplay.querySelector('.code-title');
+            
+            codeContent.textContent = content;
+            codeTitle.textContent = title;
+            codeDisplay.classList.add('show');
+        }
+        
+        function copyCode(codeId) {
+            var codeContent = document.getElementById(codeId).querySelector('.code-content');
+            var text = codeContent.textContent;
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(function() {
+                    showCopySuccess(codeId);
+                }).catch(function() {
+                    fallbackCopyTextToClipboard(text, codeId);
+                });
+            } else {
+                fallbackCopyTextToClipboard(text, codeId);
+            }
+        }
+        
+        function fallbackCopyTextToClipboard(text, codeId) {
+            var textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showCopySuccess(codeId);
+            } catch (err) {
+                console.error('复制失败:', err);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+        
+        function showCopySuccess(codeId) {
+            var copyBtn = document.getElementById(codeId).querySelector('.copy-btn');
+            copyBtn.textContent = '已复制';
+            copyBtn.classList.add('copied');
+            
+            setTimeout(function() {
+                copyBtn.textContent = '复制代码';
+                copyBtn.classList.remove('copied');
+            }, 2000);
+        }
+        
+        // Toast 代码显示函数
+        function showToastCode(type) {
+            var codeMap = {
+                'success': {
+                    title: '成功提示代码',
+                    content: 'tip.success("操作成功完成！");'
+                },
+                'error': {
+                    title: '错误提示代码',
+                    content: 'tip.error("操作失败，请重试！");'
+                },
+                'info': {
+                    title: '信息提示代码',
+                    content: 'tip.info("这是一条信息提示");'
+                },
+                'warning': {
+                    title: '警告提示代码',
+                    content: 'tip.warning("请注意这个警告！");'
+                },
+                'time': {
+                    title: '长时间提示代码',
+                    content: 'tip.info("这个提示会显示5秒", {time: 5});'
+                }
+            };
+            
+            var config = codeMap[type];
+            showCode('toast-code', config.content, config.title);
+            
+            // 执行对应的tip方法
+            switch(type) {
+                case 'success':
+                    tip.success('操作成功完成！');
+                    break;
+                case 'error':
+                    tip.error('操作失败，请重试！');
+                    break;
+                case 'info':
+                    tip.info('这是一条信息提示');
+                    break;
+                case 'warning':
+                    tip.warning('请注意这个警告！');
+                    break;
+                case 'time':
+                    tip.info('这个提示会显示5秒', {time: 5});
+                    break;
+            }
+        }
+        
+        // 确认对话框代码显示函数
+        function showConfirmCode(type) {
+            if (type === 'basic') {
+                showCode('confirm-code', 
+                    'tip.confirm("您确定要执行这个操作吗？", function(confirmed) {\n    if (confirmed) {\n        tip.success("您确认了操作！");\n    } else {\n        tip.info("您取消了操作。");\n    }\n});', 
+                    '基础确认对话框代码'
+                );
+                testConfirm();
+            } else {
+                showCode('confirm-code', 
+                    'tip.confirm("这个操作不可撤销，确定要继续吗？", function(confirmed) {\n    if (confirmed) {\n        tip.showLoading("正在执行操作...");\n        setTimeout(function() {\n            tip.closeLoading();\n            tip.success("危险操作已成功执行！");\n        }, 1500);\n    } else {\n        tip.warning("操作已取消。");\n    }\n}, {\n    title: "危险操作",\n    confirmText: "确定执行",\n    cancelText: "取消操作"\n});', 
+                    '自定义确认对话框代码'
+                );
+                testCustomConfirm();
+            }
+        }
+        
+        // 输入对话框代码显示函数
+        function showPromptCode(type) {
+            if (type === 'basic') {
+                showCode('prompt-code', 
+                    'tip.prompt("请输入您的姓名：", function(value) {\n    if (value) {\n        tip.success("欢迎，" + value + "！");\n    } else {\n        tip.warning("您取消了输入。");\n    }\n});', 
+                    '基础输入对话框代码'
+                );
+                testPrompt();
+            } else {
+                showCode('prompt-code', 
+                    'tip.prompt("请输入项目名称：", function(value) {\n    if (value === null) {\n        tip.info("项目创建已取消。");\n    } else if (value && value.trim()) {\n        tip.success("项目 \\"" + value + "\\" 创建成功！");\n    } else {\n        tip.error("项目名称不能为空！");\n    }\n}, {\n    title: "创建项目",\n    placeholder: "请输入项目名称",\n    defaultValue: "my-project",\n    confirmText: "创建",\n    cancelText: "取消"\n});', 
+                    '自定义输入对话框代码'
+                );
+                testCustomPrompt();
+            }
+        }
+        
+        // 加载遮罩代码显示函数
+        function showLoadingCode(type) {
+            if (type === 'basic') {
+                showCode('loading-code', 
+                    'tip.showLoading();\nsetTimeout(function() {\n    tip.closeLoading();\n    tip.success("加载完成！");\n}, 2000);', 
+                    '基础加载遮罩代码'
+                );
+                testLoading();
+            } else {
+                showCode('loading-code', 
+                    'tip.showLoading("正在处理数据...");\nsetTimeout(function() {\n    tip.closeLoading();\n    tip.success("数据处理完成！");\n}, 3000);', 
+                    '自定义加载遮罩代码'
+                );
+                testLoadingWithText();
+            }
+        }
+        
+        // 复杂流程代码显示函数
+        function showComplexCode() {
+            showCode('complex-code', 
+                'tip.confirm("是否要开始一个复杂的操作流程？", function(confirmed) {\n    if (confirmed) {\n        tip.prompt("请输入项目名称：", function(projectName) {\n            if (projectName === null) {\n                tip.warning("项目创建已取消。");\n            } else if (projectName && projectName.trim()) {\n                tip.confirm("项目 \\"" + projectName + "\\" 创建成功！是否立即下载？", function(download) {\n                    if (download) {\n                        tip.showLoading("正在下载项目文件...");\n                        setTimeout(function() {\n                            tip.closeLoading();\n                            tip.success("项目 \\"" + projectName + "\\" 下载完成！");\n                        }, 2000);\n                    } else {\n                        tip.info("项目已创建，您可以稍后在项目中下载。");\n                    }\n                }, {\n                    title: "下载确认",\n                    confirmText: "立即下载",\n                    cancelText: "稍后下载"\n                });\n            } else {\n                tip.error("项目名称不能为空！");\n            }\n        }, {\n            title: "创建项目",\n            placeholder: "请输入项目名称",\n            defaultValue: "",\n            confirmText: "创建",\n            cancelText: "取消"\n        });\n    } else {\n        tip.info("操作已取消。");\n    }\n}, {\n    title: "复杂流程演示",\n    confirmText: "开始",\n    cancelText: "取消"\n});', 
+                '复杂流程代码'
+            );
+            testComplexFlow();
+        }
+        
+        // 清理功能代码显示函数
+        function showClearCode(type) {
+            var codeMap = {
+                'toasts': {
+                    title: '清除Toast代码',
+                    content: 'tip.clearToasts();'
+                },
+                'modals': {
+                    title: '关闭模态框代码',
+                    content: 'tip.closeAllModals();'
+                },
+                'loading': {
+                    title: '隐藏加载代码',
+                    content: 'tip.closeAllLoading();'
+                },
+                'all': {
+                    title: '清理全部代码',
+                    content: 'tip.clearAll();'
+                }
+            };
+            
+            var config = codeMap[type];
+            showCode('clear-code', config.content, config.title);
+            
+            // 执行对应的清理方法
+            switch(type) {
+                case 'toasts':
+                    tip.clearToasts();
+                    break;
+                case 'modals':
+                    tip.closeAllModals();
+                    break;
+                case 'loading':
+                    tip.closeAllLoading();
+                    break;
+                case 'all':
+                    tip.clearAll();
+                    break;
+            }
+        }
+        
+        // 测试函数
+        function testConfirm() {
+            tip.confirm('您确定要执行这个操作吗？', function(confirmed) {
+                if (confirmed) {
+                    tip.success('您确认了操作！');
+                } else {
+                    tip.info('您取消了操作。');
+                }
+            });
+        }
+
+        function testCustomConfirm() {
+            tip.confirm('这个操作不可撤销，确定要继续吗？', function(confirmed) {
+                if (confirmed) {
+                    tip.showLoading('正在执行操作...');
+                    setTimeout(function() {
+                        tip.closeLoading();
+                        tip.success('危险操作已成功执行！');
+                    }, 1500);
+                } else {
+                    tip.warning('操作已取消。');
+                }
+            }, {
+                title: '危险操作',
+                confirmText: '确定执行',
+                cancelText: '取消操作'
+            });
+        }
+
+        function testPrompt() {
+            tip.prompt('请输入您的姓名：', function(value) {
+                if (value) {
+                    tip.success('欢迎，' + value + '！');
+                } else {
+                    tip.warning('您取消了输入。');
+                }
+            });
+        }
+
+        function testCustomPrompt() {
+            tip.prompt('请输入项目名称：', function(value) {
+                if (value === null) {
+                    tip.info('项目创建已取消。');
+                } else if (value && value.trim()) {
+                    tip.success('项目 "' + value + '" 创建成功！');
+                } else {
+                    tip.error('项目名称不能为空！');
+                }
+            }, {
+                title: '创建项目',
+                placeholder: '请输入项目名称',
+                defaultValue: 'my-project',
+                confirmText: '创建',
+                cancelText: '取消'
+            });
+        }
+
+        function testLoading() {
+            tip.showLoading();
+            setTimeout(function() {
+                tip.closeLoading();
+                tip.success('加载完成！');
+            }, 2000);
+        }
+
+        function testLoadingWithText() {
+            tip.showLoading('正在处理数据...');
+            setTimeout(function() {
+                tip.closeLoading();
+                tip.success('数据处理完成！');
+            }, 3000);
+        }
+
+        function testComplexFlow() {
+            tip.confirm('是否要开始一个复杂的操作流程？', function(confirmed) {
+                if (confirmed) {
+                    tip.prompt('请输入项目名称：', function(projectName) {
+                        if (projectName === null) {
+                            tip.warning('项目创建已取消。');
+                        } else if (projectName && projectName.trim()) {
+                            tip.confirm('项目 "' + projectName + '" 创建成功！是否立即下载？', function(download) {
+                                if (download) {
+                                    tip.showLoading('正在下载项目文件...');
+                                    setTimeout(function() {
+                                        tip.closeLoading();
+                                        tip.success('项目 "' + projectName + '" 下载完成！');
+                                    }, 2000);
+                                } else {
+                                    tip.info('项目已创建，您可以稍后在项目中下载。');
+                                }
+                            }, {
+                                title: '下载确认',
+                                confirmText: '立即下载',
+                                cancelText: '稍后下载'
+                            });
+                        } else {
+                            tip.error('项目名称不能为空！');
+                        }
+                    }, {
+                        title: '创建项目',
+                        placeholder: '请输入项目名称',
+                        defaultValue: '',
+                        confirmText: '创建',
+                        cancelText: '取消'
+                    });
+                } else {
+                    tip.info('操作已取消。');
+                }
+            }, {
+                title: '复杂流程演示',
+                confirmText: '开始',
+                cancelText: '取消'
+            });
+        }
+
+        // 页面加载完成后显示欢迎信息
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                tip.success('Tip.js 演示页面加载完成！');
+            }, 500);
+        });
+        
+
+    </script>
+</body>
+</html> 
