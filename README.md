@@ -347,12 +347,6 @@ MIT License - 详见 [LICENSE](LICENSE) 文件
 4. 推送到分支 (`git push origin feature/AmazingFeature`)
 5. 打开 Pull Request
 
-## 📞 支持
-
-- 📧 邮箱：support@getwebtools.com
-- 🐛 问题反馈：[GitHub Issues](https://github.com/getwebtools/tip/issues)
-- 📖 在线文档：[https://getwebtools.github.io/tip/](https://getwebtools.github.io/tip/)
-
 ## 🔄 更新日志
 
 ### v1.0.0
