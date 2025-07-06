@@ -16,13 +16,9 @@
 - **安全可靠** - 内置 XSS 防护和错误处理
 - **配置灵活** - 丰富的配置选项和快捷方法
 
-## 📦 安装
+### 在线体验
+[👉 https://getwebtools.github.io/tip/ 在线体验](https://getwebtools.github.io/tip/)
 
-### 直接引入
-
-```html
-<script src="tip.min.js"></script>
-```
 
 ## 🎯 快速开始
 
